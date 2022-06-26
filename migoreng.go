@@ -6,6 +6,7 @@ type DatabaseSQL int
 
 const (
 	DatabasePostgresql DatabaseSQL = iota
+	DatabaseMysql
 )
 
 type Source struct {
@@ -39,6 +40,11 @@ func NewSQL(database DatabaseSQL, db *sql.DB, options *MigratorOptions) Migrator
 
 	switch database {
 	case DatabasePostgresql:
+		return &postgresqlMigrator{
+			db:      db,
+			options: options,
+		}
+	case DatabaseMysql:
 		return &postgresqlMigrator{
 			db:      db,
 			options: options,
