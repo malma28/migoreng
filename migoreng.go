@@ -15,12 +15,16 @@ type Source struct {
 	Down func(db *sql.DB) error
 }
 
-type MigratorSQL interface {
+type Migrator interface {
 	// use n < 0 to go up to the latest
 	Up(n int) error
 	// use n < 0 to go down to the first
 	Down(n int) error
 	// set the sources
+}
+
+type MigratorSQL interface {
+	Migrator
 	SetSource(sources []Source) error
 }
 
